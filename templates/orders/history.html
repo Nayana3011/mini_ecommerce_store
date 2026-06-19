@@ -1,0 +1,25 @@
+<h1>My Orders</h1>
+
+{% for order in orders %}
+
+<p>
+    <a href="{% url 'order_detail' order.id %}">
+        Order #{{ order.id }}
+    </a>
+</p>
+
+<p>
+    Status: {{ order.status }}
+</p>
+
+<p>
+    Total: {{ order.total }}
+</p>
+
+<hr>
+
+{% empty %}
+
+<p>No Orders Found</p>
+
+{% endfor %}

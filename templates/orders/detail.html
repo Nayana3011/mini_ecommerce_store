@@ -1,0 +1,42 @@
+<h1>Order #{{ order.id }}</h1>
+
+<p>Status: {{ order.status }}</p>
+
+<p>Total: {{ order.total }}</p>
+
+<p>Shipping Address:</p>
+
+<p>{{ order.shipping_address }}</p>
+
+<hr>
+
+<h2>Items</h2>
+
+{% for item in items %}
+
+<p>
+    SKU:
+    {{ item.variant.sku }}
+</p>
+
+<p>
+    Quantity:
+    {{ item.quantity }}
+</p>
+
+<p>
+    Unit Price:
+    {{ item.unit_price }}
+</p>
+
+<hr>
+
+{% endfor %}
+
+{% if order.status == 'pending' %}
+
+<a href="{% url 'mock_payment' order.id %}">
+    Pay Now
+</a>
+
+{% endif %}

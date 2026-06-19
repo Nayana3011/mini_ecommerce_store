@@ -1,0 +1,31 @@
+<h1>Shopping Cart</h1>
+
+<p>Total Items: {{ cart_count }}</p>
+
+<hr>
+
+{% for item in cart %}
+
+<p>
+    SKU: {{ item.variant.sku }}
+</p>
+
+<p>
+    Price: {{ item.variant.price }}
+</p>
+
+<p>
+    Quantity: {{ item.quantity }}
+</p>
+
+<p>
+    Total: {{ item.total_price }}
+</p>
+
+<hr>
+
+{% empty %}
+
+<p>Cart is empty</p>
+
+{% endfor %}
