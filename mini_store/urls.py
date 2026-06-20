@@ -1,5 +1,5 @@
 """
-URL configuration for ecommerce_store project.
+URL configuration for mini_store project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -19,13 +19,30 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     path(
         'cart/',
         include('cart.urls')
     ),
+    
     path(
     'orders/',
     include('orders.urls')
+    ),
+    
+    path(
+    'api/',
+    include('catalogue.api_urls')
+    ),
+    
+    path(
+    'api/',
+    include('orders.api_urls')
+    ),
+    
+    path(
+        'accounts/',
+        include('django.contrib.auth.urls')
     ),
 
 ]

@@ -4,8 +4,15 @@ from cart.cart import Cart
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from catalogue.models import ProductVariant
+import stripe
+from django.conf import settings
+from .tasks import send_order_confirmation
+from django.contrib.auth.decorators import login_required
 
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+@login_required
 def checkout(request):
 
     cart = Cart(request)
@@ -57,6 +64,7 @@ def checkout(request):
     )
     
 
+@login_required
 def order_history(request):
 
     orders = Order.objects.filter(
@@ -70,7 +78,8 @@ def order_history(request):
             'orders': orders
         }
     )
-    
+
+@login_required    
 def order_detail(request, order_id):
 
     order = get_object_or_404(
@@ -91,7 +100,8 @@ def order_detail(request, order_id):
             'items': items
         }
     )
-    
+
+@login_required    
 def mock_payment(request, order_id):
 
     order = get_object_or_404(
@@ -103,5 +113,7 @@ def mock_payment(request, order_id):
     order.status = 'paid'
     order.save()
 
-    return redirect('order_detail', order_id=order.id)
+    send_order_confirmation.delay(order.id)
+    
+    return render(request,'orders/payment_success.html',{'order': order})
 

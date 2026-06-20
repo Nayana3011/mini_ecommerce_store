@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+import os
+from celery.schedules import crontab
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mini_store.middleware.RequestTimingMiddleware',
 ]
 
 ROOT_URLCONF = 'mini_store.urls'
@@ -128,3 +135,49 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+LOGIN_REDIRECT_URL = '/api/orders/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+EMAIL_BACKEND = ('django.core.mail.backends.console.EmailBackend')
+
+DEFAULT_FROM_EMAIL = ('store@example.com')
+
+# CELERY_BEAT_SCHEDULE = {
+
+#     'low-stock-alert': {
+
+#         'task': 'catalogue.tasks.low_stock_alert',
+
+#         'schedule': crontab(
+#             minute=0,
+#             hour=9
+#         ),
+
+#     },
+
+# }
+
+CELERY_BEAT_SCHEDULE = {
+
+    'low-stock-alert': {
+
+        'task': 'catalogue.tasks.low_stock_alert',
+
+        'schedule': 60.0,
+
+    },
+
+}

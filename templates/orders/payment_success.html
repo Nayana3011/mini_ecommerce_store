@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Successful</title>
+</head>
+<body>
+
+    <h2>✅ Payment Successful</h2>
+
+    <p>Your order has been placed successfully.</p>
+
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+
+    <p><strong>Total:</strong> ₹{{ order.total }}</p>
+
+    <p>An order confirmation email has been sent.</p>
+
+    <a href="{% url 'order_detail' order.id %}">
+        View Order Details
+    </a>
+
+</body>
+</html>

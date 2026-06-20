@@ -152,12 +152,27 @@ class Review(models.Model):
         on_delete=models.CASCADE
     )
 
-    rating = models.IntegerField(
-    validators=[
-        MinValueValidator(1),
-        MaxValueValidator(5)
-    ]
-)
+    rating = models.PositiveIntegerField()
+
+    comment = models.TextField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+
+        unique_together = (
+            'product',
+            'buyer'
+        )
+
+    def __str__(self):
+
+        return (
+            f"{self.product.name}"
+            f" - {self.buyer.username}"
+        )
     
 
     body = models.TextField()
