@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from catalogue.models import ProductVariant
 from .cart import Cart
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def cart_detail(request):
 
     cart = Cart(request)
@@ -16,14 +17,12 @@ def cart_detail(request):
         }
     )
 
-
+@login_required
 def cart_add(request, variant_id):
 
     cart = Cart(request)
 
-    variant = ProductVariant.objects.get(
-        id=variant_id
-    )
+    variant = ProductVariant.objects.get(id=variant_id)
 
     cart.add(variant)
 

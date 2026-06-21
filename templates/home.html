@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+
+<h1>Mini E-Commerce Store</h1>
+
+<p>
+    Discover quality products at affordable prices.
+    Browse our collection and enjoy a seamless shopping experience.
+</p>
+
+</div>
+
+<div class="card">
+
+
+<h2>Featured Categories</h2>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <div class="card" style="width:250px;">
+        <h3>Electronics</h3>
+        <p>Smartphones, laptops and accessories.</p>
+    </div>
+
+    <div class="card" style="width:250px;">
+        <h3>Fashion</h3>
+        <p>Trending styles and everyday essentials.</p>
+    </div>
+
+    <div class="card" style="width:250px;">
+        <h3>Home & Living</h3>
+        <p>Products to make your home comfortable.</p>
+    </div>
+
+</div>
+
+
+</div>
+
+<div class="card">
+
+
+<h2>Quick Access</h2>
+
+<a class="btn" href="/products/">
+    Browse Products
+</a>
+
+<a class="btn" href="/cart/" style="margin-left:10px;">
+    Shopping Cart
+</a>
+
+<a class="btn" href="/orders/" style="margin-left:10px;">
+    My Orders
+</a>
+
+
+</div>
+
+<div class="card">
+
+
+<h2>Why Shop With Us?</h2>
+
+<ul>
+    <li>Secure Checkout Process</li>
+    <li>Easy Order Management</li>
+    <li>Product Reviews & Ratings</li>
+    <li>Fast Order Confirmation</li>
+    <li>Reliable Customer Experience</li>
+</ul>
+
+
+</div>
+
+{% endblock %}

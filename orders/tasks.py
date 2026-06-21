@@ -3,57 +3,66 @@ from celery import shared_task
 from django.core.mail import EmailMultiAlternatives
 
 from .models import Order
+import logging
 
+logger = logging.getLogger(__name__)
 
 @shared_task
 def send_order_confirmation(order_id):
 
-    order = Order.objects.get(
-        id=order_id
-    )
+    try:
+        order = Order.objects.get(id=order_id)
 
-    html_content = f"""
-    <h2>Order Confirmation</h2>
+        html_content = f"""
+        <h2>Order Confirmation</h2>
 
-    <p>Order ID: {order.id}</p>
+        <p>Order ID: {order.id}</p>
 
-    <table border="1" cellpadding="5">
+        <table border="1" cellpadding="5">
 
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-    """
-
-    for item in order.orderitem_set.all():
-
-        html_content += f"""
-        <tr>
-            <td>{item.variant}</td>
-            <td>{item.quantity}</td>
-            <td>{item.unit_price}</td>
-        </tr>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
         """
 
-    html_content += f"""
-    </table>
+        for item in order.orderitem_set.all():
 
-    <p>Total: {order.total}</p>
-    """
+            html_content += f"""
+            <tr>
+                <td>{item.variant}</td>
+                <td>{item.quantity}</td>
+                <td>{item.unit_price}</td>
+            </tr>
+            """
 
-    email = EmailMultiAlternatives(
-        subject=f"Order #{order.id} Confirmation",
-        body="Your order has been placed successfully.",
-        from_email="store@example.com",
-        to=[order.buyer.email]
-    )
+        html_content += f"""
+        </table>
 
-    email.attach_alternative(
-        html_content,
-        "text/html"
-    )
+        <p>Total: {order.total}</p>
+        """
 
-    email.send()
+        email = EmailMultiAlternatives(
+            subject=f"Order #{order.id} Confirmation",
+            body="Your order has been placed successfully.",
+            from_email="store@example.com",
+            to=[order.buyer.email]
+        )
 
-    return True
+        email.attach_alternative(
+            html_content,
+            "text/html"
+        )
+
+        email.send()
+
+        return True
+    
+    except Exception as e:
+
+        logger.error(
+            f"Order confirmation failed: {e}"
+        )
+
+        return False

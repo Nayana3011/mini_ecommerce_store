@@ -15,31 +15,22 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-class OrderListAPIView(
-    generics.ListAPIView
-):
+class OrderListAPIView(generics.ListAPIView):
 
     serializer_class = OrderSerializer
 
     def get_queryset(self):
 
-        queryset = Order.objects.filter(
-            buyer=self.request.user
-        )
-
+        queryset = Order.objects.filter(buyer=self.request.user).order_by('-created_at')
         status = self.request.GET.get('status')
 
         if status:
-            queryset = queryset.filter(
-                status=status
-            )
+            queryset = queryset.filter(status=status)
 
         return queryset
         
         
-class OrderDetailAPIView(
-    generics.RetrieveAPIView
-):
+class OrderDetailAPIView(generics.RetrieveAPIView):
 
     serializer_class = OrderSerializer
 
@@ -54,32 +45,19 @@ class OrderDetailAPIView(
         )
         
         
-class CancelOrderAPIView(
-    APIView
-):
+class CancelOrderAPIView(APIView):
 
-    permission_classes = [
-        IsAuthenticated
-    ]
+    permission_classes = [IsAuthenticated]
 
-    def post(
-        self,
-        request,
-        pk
-    ):
+    def post(self,request,pk):
 
-        order = get_object_or_404(
-            Order,
-            id=pk,
-            buyer=request.user
-        )
+        order = get_object_or_404(Order,id=pk,buyer=request.user)
 
         if order.status != 'pending':
 
             return Response(
                 {
-                    'error':
-                    'Only pending orders can be cancelled'
+                    'error':'Only pending orders can be cancelled'
                 },
                 status=403
             )
@@ -88,8 +66,7 @@ class CancelOrderAPIView(
 
             return Response(
                 {
-                    'error':
-                    'Cancellation period expired'
+                    'error':'Cancellation period expired'
                 },
                 status=403
             )
@@ -100,7 +77,6 @@ class CancelOrderAPIView(
 
         return Response(
             {
-                'message':
-                'Order cancelled successfully'
+                'message':'Order cancelled successfully'
             }
         )

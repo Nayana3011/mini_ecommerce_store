@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Category, Product, ProductVariant, ProductImage, Review
+from django.db.models import Count
 
 
 class ProductVariantInline(admin.TabularInline):
@@ -26,16 +27,16 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'seller',
         'category',
+        'variant_count',
         'is_active'
     )
 
-    actions = [toggle_active]
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.annotate(variant_total=Count('productvariant'))
 
-    inlines = [
-        ProductVariantInline,
-        ProductImageInline
-    ]
-
+    def variant_count(self, obj):
+        return obj.variant_total
 
 admin.site.register(Category)
 admin.site.register(ProductVariant)

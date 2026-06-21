@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Payment Successful</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
 
     <h2>✅ Payment Successful</h2>
 
@@ -11,13 +8,36 @@
 
     <p><strong>Order ID:</strong> {{ order.id }}</p>
 
+    <p><strong>Status:</strong> {{ order.status }}</p>
+
     <p><strong>Total:</strong> ₹{{ order.total }}</p>
 
-    <p>An order confirmation email has been sent.</p>
+    <h3>Order Items</h3>
+
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+
+        {% for item in order.orderitem_set.all %}
+        <tr>
+            <td>{{ item.variant.sku }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.unit_price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <p>
+        A confirmation email has been sent to your registered email address.
+    </p>
 
     <a href="{% url 'order_detail' order.id %}">
         View Order Details
     </a>
 
-</body>
-</html>
+{% endblock %}

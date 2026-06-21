@@ -155,29 +155,29 @@ EMAIL_BACKEND = ('django.core.mail.backends.console.EmailBackend')
 
 DEFAULT_FROM_EMAIL = ('store@example.com')
 
-# CELERY_BEAT_SCHEDULE = {
-
-#     'low-stock-alert': {
-
-#         'task': 'catalogue.tasks.low_stock_alert',
-
-#         'schedule': crontab(
-#             minute=0,
-#             hour=9
-#         ),
-
-#     },
-
-# }
-
 CELERY_BEAT_SCHEDULE = {
 
     'low-stock-alert': {
 
         'task': 'catalogue.tasks.low_stock_alert',
 
-        'schedule': 60.0,
+        'schedule': crontab(minute=0,hour=9),
 
     },
 
 }
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# CELERY_BEAT_SCHEDULE = {
+
+#     'low-stock-alert': {
+
+#         'task': 'catalogue.tasks.low_stock_alert',
+
+#         'schedule': 60.0,
+
+#     },
+
+# }

@@ -7,9 +7,7 @@ from .models import ProductVariant
 @shared_task
 def low_stock_alert():
 
-    low_stock_items = ProductVariant.objects.filter(
-        stock_quantity__lt=5
-    )
+    low_stock_items = ProductVariant.objects.filter(stock_quantity__lt=5)
 
     if not low_stock_items.exists():
         return "No low stock items"

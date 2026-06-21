@@ -1,31 +1,47 @@
-<h1>Shopping Cart</h1>
+{% extends 'base.html' %}
 
-<p>Total Items: {{ cart_count }}</p>
+{% block content %}
 
-<hr>
+<h2>Shopping Cart</h2>
 
+<p>
+    <strong>Total Items:</strong> {{ cart_count }}
+</p>
 {% for item in cart %}
 
-<p>
-    SKU: {{ item.variant.sku }}
-</p>
+    <table border="1" cellpadding="10" width="100%">
 
-<p>
-    Price: {{ item.variant.price }}
-</p>
+        <tr>
+            <th width="20%">SKU</th>
+            <th width="20%">Price</th>
+            <th width="20%">Quantity</th>
+            <th width="20%">Total</th>
+        </tr>
 
-<p>
-    Quantity: {{ item.quantity }}
-</p>
+        <tr>
+            <td>{{ item.variant.sku }}</td>
+            <td>₹{{ item.variant.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.total_price }}</td>
+        </tr>
 
-<p>
-    Total: {{ item.total_price }}
-</p>
+    </table>
 
-<hr>
+    <br>
 
 {% empty %}
 
-<p>Cart is empty</p>
+    <p><strong>Cart is empty</strong></p>
 
 {% endfor %}
+
+{% if cart_count > 0 %}
+
+<a class="btn"
+   href="/orders/checkout/">
+    Proceed to Checkout
+</a>
+
+{% endif %}
+
+{% endblock %}

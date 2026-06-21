@@ -57,18 +57,13 @@ class Cart:
 
         variant_ids = self.cart.keys()
 
-        variants = ProductVariant.objects.filter(
-            id__in=variant_ids
-        )
+        variants = ProductVariant.objects.filter(id__in=variant_ids)
 
         for variant in variants:
 
             item = {
                 'variant': variant,
                 'quantity': self.cart[str(variant.id)],
-                'total_price':
-                    variant.price *
-                    self.cart[str(variant.id)]
-            }
+                'total_price':variant.price * self.cart[str(variant.id)]}
 
             yield item

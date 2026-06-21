@@ -13,9 +13,7 @@ class RequestTimingMiddleware:
 
         response = self.get_response(request)
 
-        duration = (
-            time.time() - start_time
-        ) * 1000
+        duration = (time.time() - start_time) * 1000
 
         print(
             f"{request.method} "

@@ -1,25 +1,57 @@
-<h1>My Orders</h1>
+{% extends 'base.html' %}
 
-{% for order in orders %}
+{% block content %}
 
-<p>
-    <a href="{% url 'order_detail' order.id %}">
-        Order #{{ order.id }}
-    </a>
-</p>
+<h2>My Orders</h2>
 
-<p>
-    Status: {{ order.status }}
-</p>
+{% if orders %}
 
-<p>
-    Total: {{ order.total }}
-</p>
+<table border="1" cellpadding="10" width="100%">
 
-<hr>
+    <tr>
+        <th>Order ID</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
 
-{% empty %}
+    {% for order in orders %}
 
-<p>No Orders Found</p>
+    <tr>
 
-{% endfor %}
+        <td>
+            #{{ order.id }}
+        </td>
+
+        <td>
+            {{ order.status }}
+        </td>
+
+        <td>
+            ₹{{ order.total }}
+        </td>
+
+        <td>
+
+            <a class="btn"
+               href="{% url 'order_detail' order.id %}">
+                View Details
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+    <p>
+        No Orders Found
+    </p>
+
+{% endif %}
+
+{% endblock %}

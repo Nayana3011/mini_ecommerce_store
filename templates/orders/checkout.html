@@ -1,17 +1,46 @@
-<h1>Checkout</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Checkout</h2>
+
+<p>
+    Please enter your shipping address to complete the order.
+</p>
 
 <form method="post">
+
     {% csrf_token %}
+
+    <label>
+        <strong>Shipping Address</strong>
+    </label>
+
+    <br><br>
 
     <textarea
         name="address"
-        placeholder="Shipping Address">
+        rows="5"
+        cols="60"
+        placeholder="Enter your shipping address"
+        style="
+            width:100%;
+            padding:10px;
+            border:1px solid #ccc;
+            border-radius:4px;
+        ">
     </textarea>
 
     <br><br>
 
-    <button type="submit">
+    <button
+        type="submit"
+        class="btn">
+
         Place Order
+
     </button>
 
 </form>
+
+{% endblock %}

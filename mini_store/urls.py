@@ -16,33 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .views import home
+from django.shortcuts import render
+
 
 urlpatterns = [
+    path('', home, name='home'),
+    
     path('admin/', admin.site.urls),
     
-    path(
-        'cart/',
-        include('cart.urls')
-    ),
+    path('cart/',include('cart.urls')),
     
-    path(
-    'orders/',
-    include('orders.urls')
-    ),
+    path('orders/',include('orders.urls')),
     
-    path(
-    'api/',
-    include('catalogue.api_urls')
-    ),
+    path('api/',include('catalogue.api_urls')),
     
-    path(
-    'api/',
-    include('orders.api_urls')
-    ),
+    path('api/',include('orders.api_urls')),
     
-    path(
-        'accounts/',
-        include('django.contrib.auth.urls')
-    ),
+    path('accounts/',include('django.contrib.auth.urls')),
+    
+    path('', include('catalogue.urls')),
+    
+    path('accounts/', include('django.contrib.auth.urls')),
 
 ]

@@ -8,6 +8,7 @@ import stripe
 from django.conf import settings
 from .tasks import send_order_confirmation
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -30,14 +31,10 @@ def checkout(request):
 
             for item in cart:
 
-                variant = ProductVariant.objects.select_for_update().get(
-                    id=item['variant'].id
-                )
+                variant = ProductVariant.objects.select_for_update().get(id=item['variant'].id)
 
                 if variant.stock_quantity < item['quantity']:
-                    raise ValueError(
-                        "Not enough stock available"
-                    )
+                    raise ValueError("Not enough stock available")
 
                 variant.stock_quantity -= item['quantity']
                 variant.save()
@@ -58,22 +55,15 @@ def checkout(request):
 
         return redirect('order_history')
 
-    return render(
-        request,
-        'orders/checkout.html'
-    )
+    return render(request,'orders/checkout.html')
     
 
 @login_required
 def order_history(request):
 
-    orders = Order.objects.filter(
-        buyer=request.user
-    )
+    orders = Order.objects.filter(buyer=request.user)
 
-    return render(
-        request,
-        'orders/history.html',
+    return render(request,'orders/history.html',
         {
             'orders': orders
         }
@@ -82,19 +72,11 @@ def order_history(request):
 @login_required    
 def order_detail(request, order_id):
 
-    order = get_object_or_404(
-    Order,
-    id=order_id,
-    buyer=request.user
-    )
+    order = get_object_or_404(Order,id=order_id,buyer=request.user)
 
-    items = OrderItem.objects.filter(
-        order=order
-    )
+    items = OrderItem.objects.filter(order=order)
 
-    return render(
-        request,
-        'orders/detail.html',
+    return render(request,'orders/detail.html',
         {
             'order': order,
             'items': items
@@ -104,11 +86,7 @@ def order_detail(request, order_id):
 @login_required    
 def mock_payment(request, order_id):
 
-    order = get_object_or_404(
-        Order,
-        id=order_id,
-        buyer=request.user
-    )
+    order = get_object_or_404(Order,id=order_id,buyer=request.user)
 
     order.status = 'paid'
     order.save()
@@ -117,3 +95,46 @@ def mock_payment(request, order_id):
     
     return render(request,'orders/payment_success.html',{'order': order})
 
+
+@login_required
+def payment_page(request, order_id):
+
+    order = get_object_or_404(Order,id=order_id,buyer=request.user)
+
+    if request.method == "POST":
+
+        card_number = request.POST.get("card_number").replace(" ", "")
+
+        if card_number == "4242424242424242":
+
+            order.status = "paid"
+            order.save()
+
+            send_order_confirmation.delay(order.id)
+
+            return render(request,"orders/payment_success.html",
+                {"order": order}
+            )
+
+        else:
+
+            return render(request,"orders/payment_failed.html")
+
+    return render(request,"orders/payment_page.html",
+        {"order": order}
+    )
+
+
+def stripe_test(request):
+
+    session = stripe.checkout.Session.create(
+        success_url="http://localhost:8000/",
+        cancel_url="http://localhost:8000/",
+        payment_method_types=["card"],
+        mode="payment",
+        line_items=[]
+    )
+
+    return JsonResponse(
+        {"session": str(session)}
+    )

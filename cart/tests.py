@@ -12,14 +12,9 @@ class CartTestCase(TestCase):
 
         self.factory = RequestFactory()
 
-        self.user = User.objects.create_user(
-            username='seller',
-            password='test123'
-        )
+        self.user = User.objects.create_user(username='seller', password='test123')
 
-        self.category = Category.objects.create(
-            name='Mobile'
-        )
+        self.category = Category.objects.create(name='Mobile')
 
         self.product = Product.objects.create(
             name='Samsung M30',
@@ -41,9 +36,7 @@ class CartTestCase(TestCase):
 
         request = self.factory.get('/')
 
-        middleware = SessionMiddleware(
-            lambda req: None
-        )
+        middleware = SessionMiddleware(lambda req: None)
 
         middleware.process_request(request)
 

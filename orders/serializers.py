@@ -2,13 +2,9 @@ from rest_framework import serializers
 from .models import Order, OrderItem
 
 
-class OrderItemSerializer(
-    serializers.ModelSerializer
-):
+class OrderItemSerializer(serializers.ModelSerializer):
 
-    product = serializers.CharField(
-        source='variant.product.name'
-    )
+    product = serializers.CharField(source='variant.product.name')
 
     class Meta:
 
@@ -21,9 +17,7 @@ class OrderItemSerializer(
         ]
 
 
-class OrderSerializer(
-    serializers.ModelSerializer
-):
+class OrderSerializer(serializers.ModelSerializer):
 
     items = OrderItemSerializer(
         source='orderitem_set',

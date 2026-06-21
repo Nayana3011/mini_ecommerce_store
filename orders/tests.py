@@ -4,16 +4,9 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
 
-from catalogue.models import (
-    Category,
-    Product,
-    ProductVariant
-)
+from catalogue.models import (Category,Product,ProductVariant)
 
-from orders.models import (
-    Order,
-    OrderItem
-)
+from orders.models import (Order,OrderItem)
 
 
 class CheckoutTestCase(TestCase):
@@ -61,9 +54,7 @@ class CheckoutTestCase(TestCase):
 
         session = self.client.session
 
-        session['cart'] = {
-            str(self.variant.id): 2
-        }
+        session['cart'] = {str(self.variant.id): 2}
 
         session.save()
 
@@ -74,10 +65,7 @@ class CheckoutTestCase(TestCase):
             }
         )
 
-        self.assertEqual(
-            Order.objects.count(),
-            1
-        )
+        self.assertEqual(Order.objects.count(),1)
 
     def test_stock_decrement(self):
 
@@ -88,9 +76,7 @@ class CheckoutTestCase(TestCase):
 
         session = self.client.session
 
-        session['cart'] = {
-            str(self.variant.id): 2
-        }
+        session['cart'] = {str(self.variant.id): 2}
 
         session.save()
 
@@ -103,10 +89,7 @@ class CheckoutTestCase(TestCase):
 
         self.variant.refresh_from_db()
 
-        self.assertEqual(
-            self.variant.stock_quantity,
-            8
-        )
+        self.assertEqual(self.variant.stock_quantity,8)
 
     def test_order_item_created(self):
 
@@ -117,9 +100,7 @@ class CheckoutTestCase(TestCase):
 
         session = self.client.session
 
-        session['cart'] = {
-            str(self.variant.id): 2
-        }
+        session['cart'] = {str(self.variant.id): 2}
 
         session.save()
 
@@ -130,10 +111,7 @@ class CheckoutTestCase(TestCase):
             }
         )
 
-        self.assertEqual(
-            OrderItem.objects.count(),
-            1
-        )
+        self.assertEqual(OrderItem.objects.count(),1)
         
     def test_cancel_pending_order(self):
 
@@ -152,17 +130,11 @@ class CheckoutTestCase(TestCase):
             f'/api/orders/{order.id}/cancel/'
         )
 
-        self.assertEqual(
-            response.status_code,
-            200
-            )
+        self.assertEqual(response.status_code,200)
 
         order.refresh_from_db()
 
-        self.assertEqual(
-            order.status,
-            'cancelled'
-            )
+        self.assertEqual(order.status,'cancelled')
 
 
     def test_cancel_after_24_hours(self):
@@ -185,7 +157,4 @@ class CheckoutTestCase(TestCase):
             f'/api/orders/{order.id}/cancel/'
             )
 
-        self.assertEqual(
-            response.status_code,
-            403
-            )
+        self.assertEqual(response.status_code,403)

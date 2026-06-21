@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Products</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Action</th>
+</tr>
+
+{% for product in products %}
+
+<tr>
+
+    <td>{{ product.name }}</td>
+
+    <td>
+        ₹{{ product.productvariant_set.first.price }}
+    </td>
+
+    <td>
+        <a class="btn"
+           href="/cart/add/{{ product.productvariant_set.first.id }}/">
+            Add To Cart
+        </a>
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

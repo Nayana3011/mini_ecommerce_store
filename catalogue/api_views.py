@@ -11,15 +11,13 @@ from .api_serializers import ReviewSerializer
 from rest_framework.exceptions import ValidationError
 
 
-class ProductListAPIView(
-    generics.ListAPIView
-):
+class ProductListAPIView(generics.ListAPIView):
 
     serializer_class = ProductSerializer
 
     def get_queryset(self):
 
-        queryset = Product.objects.filter(is_active=True)
+        queryset = Product.objects.filter(is_active=True).order_by('id')
 
         category = self.request.GET.get('category')
 
@@ -48,10 +46,8 @@ class ProductListAPIView(
         return queryset.distinct()
 
 
-class ProductDetailAPIView(
-    generics.RetrieveAPIView
-):
-
+class ProductDetailAPIView(generics.RetrieveAPIView):
+    
     queryset = Product.objects.filter(
         is_active=True
     )
@@ -61,15 +57,12 @@ class ProductDetailAPIView(
     lookup_field = 'slug'
     
     
-class ReviewCreateAPIView(
-    generics.CreateAPIView
-):
+class ReviewCreateAPIView(generics.CreateAPIView):
+    
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-    permission_classes = [
-        IsAuthenticated
-    ]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self,serializer):
 
