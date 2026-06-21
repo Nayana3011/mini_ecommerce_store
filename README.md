@@ -12,48 +12,55 @@ A Django-based e-commerce application implementing product catalog management, s
       - Product reviews and ratings
 Shopping Cart
 
-      -Session-based cart
-      -Add products to cart
-      -Update quantities
-      -Remove products
-      -Cart total calculation
+      - Session-based cart
+      - Add products to cart
+      - Update quantities
+      - Remove products
+      - Cart total calculation
 Order Management
 
-      -Checkout process
-      -Order history
-      -Order details page
-      -Order cancellation
-      -Stock validation
+      - Checkout process
+      - Order history
+      - Order details page
+      - Order cancellation
+      - Stock validation
 Payment
 
       Mock Stripe payment implementation
       Test card support:
         4242 4242 4242 4242
       Payment success/failure handling
+      
 Email Notifications
 
-      -HTML order confirmation emails
-      -Celery background tasks
-      -Redis message broker
+      - HTML order confirmation emails
+      - Celery background tasks
+      - Redis message broker
 REST APIs
 
-      -Product API
-      -Review API
-      -Order API
+      - Product API
+      - Review API
+      - Order API
 Admin Features
 
-      -Product management
-      -Category management
-      -Review management
-      -Order management
-      -Product activation/deactivation
+      - Product management
+      - Category management
+      - Review management
+      - Order management
+      - Product activation/deactivation
       
 Product Reviews
+
 REST APIs
+
 Celery Background Tasks
+
 Redis Broker
+
 Low Stock Alerts
+
 Request Timing Middleware
+
 Automated Tests
 
 ## Tech Stack
@@ -70,21 +77,28 @@ Automated Tests
 ## Installation
 
 Clone Repository
-    git clone <repository-url> 
-    cd mini_store
+          git clone <repository-url> 
+          cd mini_store
 Create Virtual Environment
-    python -m venv venv
+          python -m venv venv
 Activate Virtual Environment
-    Windows:   venv\Scripts\activate
-    Linux/macOS:    source venv/bin/activate
+          Windows:   venv\Scripts\activate
+          Linux/macOS:    source venv/bin/activate
 
 Install Dependencies
+
     pip install -r requirements.txt
+    
 Apply Migrations
+
     python manage.py migrate
+    
 Create Superuser
+
     python manage.py createsuperuser
+    
 Environment Variables
+
     Create a .env file from .env.example.
 
 ## Redis Setup
@@ -110,6 +124,7 @@ Environment Variables
 
   Execute:
       python manage.py test
+      
   Current result:
       Ran 16 tests
       OK
@@ -123,9 +138,9 @@ Environment Variables
 
 ## Celery Tasks
 
-      Order Confirmation Email
-      Triggered after successful payment.
-      Features:
+      - Order Confirmation Email
+      - Triggered after successful payment.
+      - Features:
           HTML email format
           Order summary
           Background execution using Celery
