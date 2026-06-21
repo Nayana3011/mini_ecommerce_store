@@ -77,11 +77,15 @@ Automated Tests
 ## Installation
 
 Clone Repository
+
           git clone <repository-url> 
           cd mini_store
+          
 Create Virtual Environment
+
           python -m venv venv
 Activate Virtual Environment
+
           Windows:   venv\Scripts\activate
           Linux/macOS:    source venv/bin/activate
 
@@ -132,8 +136,11 @@ Environment Variables
 ## Mock Payment
 
   This project uses a mock payment implementation to simulate Stripe test mode.
+  
     Use the following card number: 4242 4242 4242 4242
+    
     Payment succeeds when the valid test card is entered.
+    
     Invalid card numbers trigger a payment failure page and prevent order creation.
 
 ## Celery Tasks
