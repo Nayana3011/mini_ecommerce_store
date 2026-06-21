@@ -127,10 +127,13 @@ Environment Variables
 ## Running Tests
 
   Execute:
+  
       python manage.py test
       
   Current result:
+  
       Ran 16 tests
+      
       OK
 
 ## Mock Payment
