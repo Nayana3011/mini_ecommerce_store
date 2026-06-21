@@ -3,13 +3,13 @@ A Django-based e-commerce application implementing product catalog management, s
 
 ## Features
 
-Product Catalog
+## Product Catalog
 
-      -Categories with parent-child hierarchy
-      -Product management
-      -Product variants (size, color, SKU)
-      -Product images
-      -Product reviews and ratings
+      - Categories with parent-child hierarchy
+      - Product management
+      - Product variants (size, color, SKU)
+      - Product images
+      - Product reviews and ratings
 Shopping Cart
 
       -Session-based cart
