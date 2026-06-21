@@ -4,42 +4,50 @@ A Django-based e-commerce application implementing product catalog management, s
 ## Features
 
 Product Catalog
-  -Categories with parent-child hierarchy
-  -Product management
-  -Product variants (size, color, SKU)
-  -Product images
-  -Product reviews and ratings
+
+      -Categories with parent-child hierarchy
+      -Product management
+      -Product variants (size, color, SKU)
+      -Product images
+      -Product reviews and ratings
 Shopping Cart
-  -Session-based cart
-  -Add products to cart
-  -Update quantities
-  -Remove products
-  -Cart total calculation
+
+      -Session-based cart
+      -Add products to cart
+      -Update quantities
+      -Remove products
+      -Cart total calculation
 Order Management
-  -Checkout process
-  -Order history
-  -Order details page
-  -Order cancellation
-  -Stock validation
+
+      -Checkout process
+      -Order history
+      -Order details page
+      -Order cancellation
+      -Stock validation
 Payment
-  Mock Stripe payment implementation
-  Test card support:
-    4242 4242 4242 4242
-  Payment success/failure handling
+
+      Mock Stripe payment implementation
+      Test card support:
+        4242 4242 4242 4242
+      Payment success/failure handling
 Email Notifications
-  -HTML order confirmation emails
-  -Celery background tasks
-  -Redis message broker
+
+      -HTML order confirmation emails
+      -Celery background tasks
+      -Redis message broker
 REST APIs
-  -Product API
-  -Review API
-  -Order API
+
+      -Product API
+      -Review API
+      -Order API
 Admin Features
-  -Product management
-  -Category management
-  -Review management
-  -Order management
-  -Product activation/deactivation
+
+      -Product management
+      -Category management
+      -Review management
+      -Order management
+      -Product activation/deactivation
+      
 Product Reviews
 REST APIs
 Celery Background Tasks
@@ -114,6 +122,7 @@ Environment Variables
     Invalid card numbers trigger a payment failure page and prevent order creation.
 
 ## Celery Tasks
+
       Order Confirmation Email
       Triggered after successful payment.
       Features:
@@ -125,6 +134,7 @@ Environment Variables
       Monitors product variant inventory levels.
 
 ## API Endpoints
+
       Products : /api/products/
       Product Detail : /api/products/<slug>/
       Reviews : /api/reviews/
